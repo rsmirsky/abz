@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,5 +15,19 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    if (!Auth::check()) {
+        return redirect("/login");
+    } else{
+        // main page when logined
+        return redirect("/employees");
+    }
 });
+
+Auth::routes();
+
+Route::resources([
+    'employees' => \App\Http\Controllers\EmployeeController::class,
+    'positions' => \App\Http\Controllers\PositionController::class,
+]);
+
+
